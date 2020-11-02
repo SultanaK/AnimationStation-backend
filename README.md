@@ -1,13 +1,27 @@
 # AnimationStation Backend!
 
-This is a boilerplate project used for starting new projects!
+This is a backend repo used for AnimationStation client
 
 ## Script
 Start the application `npm start`
 
 Start nodemon for the application `npm run dev`
 
-Run the tests in watch mode `npm test`
+## Setup
+- Clone this repository to your local machine
+- Install the dependencies for the project
+- Ensure your PostgreSQL server is running
+- Create a User for this exercise
+- Create a database for the exercise with your user as the owner
+- Rename the `example.env` file to `.env` and update the following fields with your database credentials:
+  ```
+   MIGRATION_DB_NAME=
+   MIGRATION_DB_USER=
+   MIGRATION_DB_PASS=
+   DB_URL="postgresql://USERNAME@localhost/DATABASE_NAME"
+  ```
+- Run the command `npm run migrate -- 1` to create the database tables
+- run the command `npm t`
 
 Migrate the dev database `npm run migrate`
 
