@@ -2,13 +2,14 @@ const express = require("express");
 const path = require("path");
 const AnimationsService = require("./animations-service");
 const { requireAuth } = require("../../middleware/jwt-auth");
-
+const xss = require("xss");
 const animationsRouter = express.Router();
 const jsonBodyParser = express.json();
 
+
 animationsRouter
     .route("/")
-    .all(requireAuth)
+    /* .all(requireAuth)  */
     .get((req, res, next) => {
         AnimationsService.getAllAnimations(req.app.get("db"))
             .then((animations) => {
@@ -45,7 +46,7 @@ animationsRouter
 
 animationsRouter
     .route('/:id')
-    .all(requireAuth)
+    /* .all(requireAuth) */
     .all(checkAnimationExists)
     .get((req, res) => {
         res.json(AnimationsService.serializeAnimation(res.animation))

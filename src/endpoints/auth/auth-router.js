@@ -1,10 +1,10 @@
-const express = require("express");
-const AuthService = require("./auth-service");
+const express = require('express');
+const AuthService = require('./auth-service');
 
 const authRouter = express.Router();
 const jsonBodyParser = express.json();
 
-authRouter.post("/login", jsonBodyParser, (req, res, next) => {
+authRouter.post('/login', jsonBodyParser, (req, res, next) => {
     const { email, password } = req.body;
     const loginUser = { email, password };
 
@@ -35,7 +35,7 @@ authRouter.post("/login", jsonBodyParser, (req, res, next) => {
                     });
 
                 const sub = dbUser.email;
-                const payload = { id: dbUser.id, full_name: dbUser.full_name };
+                const payload = { id: dbUser.id};
 
                 // if everything is good, an auth token is responded
                 res.send({

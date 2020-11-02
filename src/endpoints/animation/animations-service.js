@@ -1,5 +1,5 @@
-const xss = require("xss");
 
+const xss = require("xss");
 const AnimationsService = {
     getAllAnimations(knexInstance) {
         return knexInstance
@@ -40,14 +40,16 @@ const AnimationsService = {
             .then(([animation]) => animation)
             .then((animation) => AnimationsService.getByAnimationId(knexInstance, animation.id));
     },
+    
     serializeAnimations(animations) {
         return animations.map((animation) => {
             return {
                 id: animation.id,
-                title: xss(note.title),
-                content: animation.content,
+                title: xss(animation.title),
+                content: (animation.content),
                 created: animation.created,
                 updated: animation.updated,
+                user_id: animation.user_id,
             };
         });
     },
@@ -55,13 +57,14 @@ const AnimationsService = {
     serializeAnimation(animation) {
         return {
             id: animation.id,
-            title: xss(note.title),
-            content: animation.content,
+            title: xss(animation.title),
+            content: (animation.content),
             created: animation.created,
             updated: animation.updated,
             user_id: animation.user_id,
         };
     },
+    
 };
 
 
