@@ -4,8 +4,9 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
-
-
+const animationsRouter =require('./endpoints/animation/animations-router')
+const authsRouter = require('./endpoints/auth/auth-router')
+const usersRouter = require('./endpoints/users/users-router')
 const app = express()
 
 const morganOption = (NODE_ENV === 'production')
@@ -15,6 +16,10 @@ const morganOption = (NODE_ENV === 'production')
 app.use(morgan(morganOption))
 app.use(helmet())
 app.use(cors())
+
+app.use('/api/animations', animationsRouter);
+app.use('/api/auth', authsRouter);
+app.use('/api/users', usersRouter)
 
 app.get('/', (req, res) => {
    res.send('Hello, from AnimationStation!!')
