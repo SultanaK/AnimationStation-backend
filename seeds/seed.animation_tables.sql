@@ -1,7 +1,7 @@
 BEGIN;
 
 TRUNCATE
-  animation,
+  animations,
   users
   RESTART IDENTITY CASCADE;
 
@@ -12,7 +12,7 @@ VALUES
   ('wippy', 'Ping Won In', 'Ping@yahoo.com', '$2a$10$GGBXtEu3Fglwd/Pawi5F5.A/NObHkfnf0JmZiNHaXypeUd6A6UpUe'),
   ('Ping', 'Ping Won In', 'won@yahoo.com', '$2a$10$qh7H8r659496l4ISPNujquOGSkbHWsjLo9mTmRa9rjcraTrEdnPzS');
 
-INSERT INTO animation (title, content, user_id)
+INSERT INTO animations (title, content, user_id)
 VALUES
   ('First post!', 'Interview amet consectetur adipisicing elit.', 1),
   ('Second post!', 'How-to consectetur adipisicing elit.', 2),

@@ -9,7 +9,7 @@ const jsonBodyParser = express.json();
 
 animationsRouter
     .route("/")
-    /* .all(requireAuth)  */
+    .all(requireAuth)
     .get((req, res, next) => {
         AnimationsService.getAllAnimations(req.app.get("db"))
             .then((animations) => {
@@ -18,8 +18,8 @@ animationsRouter
             .catch(next);
     })
     .post(jsonBodyParser, (req, res, next) => {
-        const { title, content, user_id } = req.body
-        const newAnimation = { title, content,user_id }
+        const { title, content } = req.body
+        const newAnimation = { title, content }
 
         for (const [key, value] of Object.entries(newAnimation)) {
             if (value == null || value === "") {
@@ -29,7 +29,7 @@ animationsRouter
             }
         }
 
-        newAnimation.user_id = user_id
+        newAnimation.user_id = req.user.id
 
         AnimationsService.addAnimation(
             req.app.get('db'),
@@ -38,7 +38,7 @@ animationsRouter
             .then(animation => {
                 res
                     .status(201)
-                    .location(path.posix.join(req.originalUrl, `/${note.id}`))
+                    .location(path.posix.join(req.originalUrl, `/${animation.id}`))
                     .json(AnimationsService.serializeAnimation(animation))
             })
             .catch(next)
@@ -46,7 +46,7 @@ animationsRouter
 
 animationsRouter
     .route('/:id')
-    /* .all(requireAuth) */
+    .all(requireAuth)
     .all(checkAnimationExists)
     .get((req, res) => {
         res.json(AnimationsService.serializeAnimation(res.animation))
@@ -63,11 +63,12 @@ animationsRouter
             }
         }
 
-        animationToUpdate.updated = new Date().toISOString();
+        /* animationToUpdate.updated = new Date().toISOString(); */
 
         AnimationsService.updateAnimation(
             req.app.get("db"),
             req.params.id,
+            req.user.id,
             animationToUpdate
         )
             .then(animation => {
@@ -77,7 +78,30 @@ animationsRouter
                     .json(AnimationsService.serializeAnimation(animation))
             })
             .catch(next)
-    });
+    })
+
+    /* .get((req, res, next) => {
+        res.json(serializeUser(res.user))
+    }) */
+    .delete((req, res, next) => {
+        AnimationsService.deleteAnimation(
+            req.app.get('db'),
+            req.params.id,
+            req.user.id
+        )
+            .then(numRowsAffected => {
+                if (numRowsAffected === 1) {
+
+                    res.status(204).end()
+
+                } else {
+                    res.status(401).end()
+                }
+                console.log(numRowsAffected)
+            })
+            .catch(next)
+    })
+
 
 /* async/await syntax for promises */
 async function checkAnimationExists(req, res, next) {

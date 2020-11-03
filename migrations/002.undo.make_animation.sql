@@ -1,2 +1,2 @@
-DROP TABLE IF EXISTS animation;
+DROP TABLE IF EXISTS animations;
 

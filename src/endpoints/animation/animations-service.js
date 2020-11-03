@@ -4,7 +4,7 @@ const AnimationsService = {
     getAllAnimations(knexInstance) {
         return knexInstance
             .select('*')
-            .from('animation')
+            .from('animations')
             .then(animations => {
                 return animations;
             });
@@ -12,7 +12,7 @@ const AnimationsService = {
 
     getByAnimationId(knexInstance, id) {
         return knexInstance
-            .from('animation')
+            .from('animations')
             .select('*')
             .where('id', id)
             .first();
@@ -20,25 +20,27 @@ const AnimationsService = {
     addAnimation(knexInstance, animation) {
         return knexInstance
             .insert(animation)
-            .into('animation')
+            .into('animations')
             .returning('*')
             .then(([animation]) => animation)
-            .then((anmation) => AnimationsService.getByAnimationId(knexInstance,animation.id));
+            .then((animation) => AnimationsService.getByAnimationId(knexInstance,animation.id));
             
     },
 
-    deleteAnimation(knex, id) {
-        return knex('animation')
+    deleteAnimation(knex, id, user_id) {
+        return knex('animations')
             .where('id', id)
+            .where('user_id', user_id)
             .delete();
     },
-    updateAnimation(knex, id, updatedAnimation) {
-        return knex('anmation')
+    updateAnimation(knex, id, user_id,updatedAnimation) {
+        return knex('animations')
             .where('id', id)
+            .where('user_id', user_id)
             .update(updatedAnimation)
             .returning('*')
             .then(([animation]) => animation)
-            .then((animation) => AnimationsService.getByAnimationId(knexInstance, animation.id));
+            .then((animation) => AnimationsService.getByAnimationId(knex, animation.id));
     },
     
     serializeAnimations(animations) {

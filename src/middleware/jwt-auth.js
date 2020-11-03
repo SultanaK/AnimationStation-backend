@@ -10,10 +10,10 @@ function requireAuth(req, res, next) {
     } else {
         bearerToken = authToken.slice('bearer '.length, authToken.length)
     }
-
+console.log(authToken)
     try {
         const payload = AuthService.verifyJwt(bearerToken)
-
+        console.log(payload)
         AuthService.getUserWithEmail(
             req.app.get('db'),
             payload.sub, // subject sent in jwt from authRouter is the user_name that we verified and we use to query db
@@ -32,6 +32,7 @@ function requireAuth(req, res, next) {
                 next(err)
             })
     } catch (error) {
+        console.log(error)
         res.status(401).json({ error: 'Unauthorized request' })
     }
 
