@@ -11,8 +11,10 @@ Start nodemon for the application `npm run dev`
 - Clone this repository to your local machine
 - Install the dependencies for the project
 - Ensure your PostgreSQL server is running
-- Create a User for this exercise
-- Create a database for the exercise with your user as the owner
+- Create a User for this Database
+    createdb -U <User_NAME>
+- Create a database for the project with your user as the owner
+    createdb -U <USER_NAME> <DB_NAME>
 - Rename the `example.env` file to `.env` and update the following fields with your database credentials:
   ```
    MIGRATION_DB_NAME=
@@ -26,6 +28,8 @@ Start nodemon for the application `npm run dev`
 Migrate the dev database `npm run migrate`
 
 Migrate the test database `npm run migrate:test`
+
+
 
 
 ## IMPORTANT NOTE ON NODE VERSION
@@ -57,3 +61,4 @@ timezone = 'UTC'
 ## Deploying
 
 When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+
