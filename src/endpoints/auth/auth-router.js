@@ -36,7 +36,7 @@ authRouter.post('/login', jsonBodyParser, (req, res, next) => {
                     });
 
                 const sub = dbUser.email;
-                const payload = { id: dbUser.id};
+                const payload = { id: dbUser.id, user_name: dbUser.user_name};
 
                 // if everything is good, an auth token is responded
                 res.send({
