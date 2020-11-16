@@ -19,7 +19,7 @@ const AnimationsService = {
     },
     addAnimation(knexInstance, animation) {
         return knexInstance
-            .insert(animation)
+            .insert(animation                                             )
             .into('animations')
             .returning('*')
             .then(([animation]) => animation)
