@@ -50,10 +50,9 @@ animationsRouter
     .get((req, res) => {
         res.json(AnimationsService.serializeAnimation(res.animation));
     })
-    .patch(jsonBodyParser, (req, res, next) => {
+  .patch(jsonBodyParser, (req, res, next) => {
         const { title, delay, duration, direction, timing, fill, keyframe, target } = req.body;
         const animationToUpdate = { title, delay, duration, direction, timing, fill, keyframe, target };
-
         for (const [key, value] of Object.entries(animationToUpdate)) {
             if (value == null || value === "") {
                 return res.status(400).json({
@@ -61,9 +60,7 @@ animationsRouter
                 })
             }
         }
-
         /* animationToUpdate.updated = new Date().toISOString(); */
-
         AnimationsService.updateAnimation(
             req.app.get("db"),
             req.params.id,
@@ -79,22 +76,8 @@ animationsRouter
             .catch(next)
     })
 
-		AnimationsService.updateAnimation(
-			req.app.get('db'),
-			req.params.id,
-			req.user.id,
-			animationToUpdate
-		)
-			.then((animation) => {
-				res
-					.status(201)
-					.location(path.posix.join(req.originalUrl, `/${animation.id}`))
-					.json(AnimationsService.serializeAnimation(animation));
-			})
-			.catch(next);
-	})
 
-	.delete((req, res, next) => {
+	.delete ((req, res, next) => {
 		AnimationsService.deleteAnimation(
 			req.app.get('db'),
 			req.params.id,
