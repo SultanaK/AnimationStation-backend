@@ -13,12 +13,6 @@ VALUES
   ('Ping', 'Ping Won In', 'won@yahoo.com', '$2a$10$qh7H8r659496l4ISPNujquOGSkbHWsjLo9mTmRa9rjcraTrEdnPzS');
   ('nathanielmata', 'Nathaniel Mata', 'nate@nathanielmata.com', '$2a$12$m/8jl1QtXbncFH3D5gdBM.XDeGQu.dDgfl80hUxj0aZBCxkxtxoDK');
 
-INSERT INTO animations (title, content, user_id)
-VALUES
-  ('First post!', 'Interview amet consectetur adipisicing elit.', 1),
-  ('Second post!', 'How-to consectetur adipisicing elit.', 2),
-  ('Third post!', 'News dolor sit amet, consectetur adipisicing elit', 3),
-  ('Fourth post', 'How-to consectetur adipisicing elit', 4);
 
 INSERT INTO animations (title, delay, duration, iteration, direction, timing, fill, target, user_id, keyframe)
 VALUES
