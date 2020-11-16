@@ -18,8 +18,8 @@ animationsRouter
             .catch(next);
     })
     .post(jsonBodyParser, (req, res, next) => {
-        const { title, content } = req.body
-        const newAnimation = { title, content }
+        const { title, delay, duration, direction, iteration, timing, fill, keyframe, target } = req.body;
+        const newAnimation = { title, delay, duration, direction, iteration, timing, fill, keyframe, target }
 
         for (const [key, value] of Object.entries(newAnimation)) {
             if (value == null || value === "") {
@@ -31,7 +31,7 @@ animationsRouter
 
         newAnimation.user_id = req.user.id
 
-        AnimationsService.addAnimation(
+        AnimationsService.insertAnimation(
             req.app.get('db'),
             newAnimation
         )
@@ -49,11 +49,11 @@ animationsRouter
     .all(requireAuth)
     .all(checkAnimationExists)
     .get((req, res) => {
-        res.json(AnimationsService.serializeAnimation(res.animation))
+        res.json(AnimationsService.serializeAnimation(res.animation));
     })
     .patch(jsonBodyParser, (req, res, next) => {
-        const { title, content } = req.body;
-        const animationToUpdate = { title, content };
+        const { title, delay, duration, direction, timing, fill, keyframe, target } = req.body;
+        const animationToUpdate = { title, delay, duration, direction, timing, fill, keyframe, target };
 
         for (const [key, value] of Object.entries(animationToUpdate)) {
             if (value == null || value === "") {
