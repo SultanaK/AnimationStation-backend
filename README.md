@@ -62,3 +62,13 @@ timezone = 'UTC'
 
 When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
 
+API Documentation:
+
+POST Features: - '/login' is made for users to login - '/animations' is made for users to post a new animation - '/users' allows user registration 
+
+GET Features: - '/profile/:user_name' accesses the specific logged in users profile 
+
+DELETE Feauture: - '/pups/:id' deletes a certain animation listing
+
+PATCH Feature: - '/pups/:id' allows updates to the animation
+
