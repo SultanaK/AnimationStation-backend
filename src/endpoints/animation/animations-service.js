@@ -45,7 +45,7 @@ const AnimationsService = {
     
     serializeAnimations(animations) {
       return animations.map((animation) => {
-        serializeAnimation(animation)
+        return this.serializeAnimation(animation)
       });
     },
 
