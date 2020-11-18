@@ -10,4 +10,4 @@ CREATE TABLE IF NOT EXISTS animations (
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE NOT NULL, 
   created TIMESTAMPTZ NOT NULL DEFAULT now(), 
   modified TIMESTAMPTZ 
-)
+);
