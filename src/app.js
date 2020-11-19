@@ -7,7 +7,7 @@ const { NODE_ENV } = require('./config')
 const animationsRouter =require('./endpoints/animation/animations-router')
 const authsRouter = require('./endpoints/auth/auth-router')
 const usersRouter = require('./endpoints/users/users-router')
-const ProfileRouter = require('./endpoints/profile/profile-router')
+/* const profileRouter = require('./endpoints/profile/profile-route') */
 
 const app = express()
 
@@ -22,7 +22,7 @@ app.use(cors())
 app.use('/api/animations', animationsRouter);
 app.use('/api/auth', authsRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/profile', ProfileRouter)
+/* app.use('/api/profile', profileRouter) */
 
 app.get('/', (req, res) => {
    res.send('Hello, from AnimationStation!!')
