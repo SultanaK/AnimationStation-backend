@@ -2,8 +2,7 @@
 const AuthService = require('../endpoints/auth/auth-service')
 
 function requireAuth(req, res, next) {
-    /* console.log('requireAuth')
-    console.log(req.get('Authorization')) */
+   
     const authToken = req.get('Authorization') || ''
     let basicToken
     if (!authToken.toLowerCase().startsWith('basic ')) {

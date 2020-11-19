@@ -1,4 +1,4 @@
-CREATE TYPE animation_direction AS ENUM (
+CREATE TYPE IF NOT EXISTS animation_direction AS ENUM (
     'normal',
     'reverse',
     'alternate',

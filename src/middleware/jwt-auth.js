@@ -1,5 +1,4 @@
 const AuthService = require('../endpoints/auth/auth-service')
-const bcrypt = require('bcryptjs');
 
 function requireAuth(req, res, next) {
     const authToken = req.get('Authorization') || ''
@@ -10,7 +9,6 @@ function requireAuth(req, res, next) {
     } else {
         bearerToken = authToken.slice('bearer '.length, authToken.length)
     }
-console.log(authToken)
     try {
         const payload = AuthService.verifyJwt(bearerToken)
         console.log(payload)
