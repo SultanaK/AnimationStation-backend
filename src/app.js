@@ -7,6 +7,8 @@ const { NODE_ENV } = require('./config')
 const animationsRouter =require('./endpoints/animation/animations-router')
 const authsRouter = require('./endpoints/auth/auth-router')
 const usersRouter = require('./endpoints/users/users-router')
+const ProfileRouter = require('./endpoints/profile/profile-router')
+
 const app = express()
 
 const morganOption = (NODE_ENV === 'production')
@@ -19,7 +21,8 @@ app.use(cors())
 
 app.use('/api/animations', animationsRouter);
 app.use('/api/auth', authsRouter);
-app.use('/api/users', usersRouter)
+app.use('/api/users', usersRouter);
+app.use('/api/profile', ProfileRouter)
 
 app.get('/', (req, res) => {
    res.send('Hello, from AnimationStation!!')

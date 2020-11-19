@@ -8,9 +8,9 @@ const ProfileService = {
         .from('users')
     },
     
-    getUserById(db, user_name) {
+    getUserById(db, user_id) {
         return ProfileService.getAllUsers(db)
-            .where('user_name', user_name)
+            .where('user_id', user_id)
             .first()
     },
 

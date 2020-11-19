@@ -5,13 +5,13 @@ const {requireAuth} = require('../middleware/jwt-auth')
 const ProfileRouter = express.Router()
 
 ProfileRouter
-    .route('/:user_name')
+    .route('/:user_id')
     .all(requireAuth)
     .all(checkUserExist)
     .get((req, res, next) => {
         ProfileService.getUserById(
             req.app.get('db'),
-            req.params.user_name
+            req.params.user_id
         )
         .then(user => {
             res.json(ProfileService.serializeProfile(user))
@@ -24,7 +24,7 @@ async function checkUserExist(req, res, next) {
     try {
       const user = await ProfileService.getUserById(
         req.app.get('db'),
-        req.params.user_name
+        req.params.user_id
       )
   
       if (!user)
