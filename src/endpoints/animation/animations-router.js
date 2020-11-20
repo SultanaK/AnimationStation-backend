@@ -45,12 +45,12 @@ animationsRouter
     });
 
 animationsRouter
-    .route('/:id')
-    .all(requireAuth)
-    .all(checkAnimationExists)
-    .get((req, res) => {
-        res.json(AnimationsService.serializeAnimation(res.animation));
-    })
+  .route('/:id')
+  .all(requireAuth)
+  .all(checkAnimationExists)
+  .get((req, res) => {
+      res.json(AnimationsService.serializeAnimation(res.animation));
+  })
   .patch(jsonBodyParser, (req, res, next) => {
         const { title, delay, duration, direction, timing, fill, keyframe, target } = req.body;
         const animationToUpdate = { title, delay, duration, direction, timing, fill, keyframe, target };
@@ -68,13 +68,13 @@ animationsRouter
             req.user.id,
             animationToUpdate
         )
-            .then(animation => {
-                res
-                    .status(201)
-                    .location(path.posix.join(req.originalUrl, `/${animation.id}`))
-                    .json(AnimationsService.serializeAnimation(animation))
-            })
-            .catch(next)
+        .then(animation => {
+            res
+                .status(201)
+                .location(path.posix.join(req.originalUrl, `/${animation.id}`))
+                .json(AnimationsService.serializeAnimation(animation))
+        })
+        .catch(next)
     })
 
 

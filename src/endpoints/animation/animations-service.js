@@ -34,7 +34,8 @@ const AnimationsService = {
 			.where('id', id)
 			.where('user_id', user_id)
 			.delete();
-	},
+  },
+  
 	updateAnimation(knex, id, user_id, updatedAnimation) {
 		return knex('animations')
 			.where('id', id)
@@ -43,7 +44,7 @@ const AnimationsService = {
 			.returning('*')
 			.then(([ animation ]) => animation)
 			.then((animation) =>
-				AnimationsService.getByAnimationId(knex, animation.id)
+				AnimationsService.getByAnimationId(knex, animation.id, user_id)
 			);
 	},
 
