@@ -1,27 +1,39 @@
-const xss = require('xss')
+const xss = require('xss');
 
 const ProfileService = {
+	getAllAnimations(knexInstance) {
+		return knexInstance.select('*').from('animations').then((animations) => {
+			return animations;
+		});
+	},
 
-    getAllUsers(db) {
-        return db
-        .select('*')
-        .from('users')
-    },
-    
-    getUserById(db, user_id) {
-        return ProfileService.getAllUsers(db)
-            .where('user_id', user_id)
-            .first()
-    },
+	getAnimationsByUserId(knexInstance,id, user_id) {
+		return ProfileService.getAllAnimationss(knexInstance)
+			.where('user_id', user_id)
+			.first();
+	},
+	serializeAnimations(animations) {
+		return animations.map((animation) => {
+			return this.serializeAnimation(animation);
+		});
+	},
+	serializeAnimation(animation) {
+		return {
+			id: animation.id,
+			title: xss(animation.title),
+			delay: animation.delay,
+			duration: animation.duration,
+			direction: xss(animation.direction),
+			iteration: animation.iteration,
+			timing: xss(animation.timing),
+			fill: xss(animation.fill),
+			keyframe: xss(animation.keyframe),
+			target: xss(animation.target),
+			created: animation.created,
+			updated: animation.updated,
+			user_id: animation.user_id,
+		};
+	},
+};
 
-    serializeProfile(user) {
-        return {
-          id: user.id,
-          fullname: xss(user.fullname),
-          user_name: xss(user.user_name)
-        }
-    },
-
-}
-
-module.exports = ProfileService
+module.exports = ProfileService;

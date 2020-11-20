@@ -10,7 +10,7 @@ animationsRouter
     .route("/")
     .all(requireAuth)
     .get((req, res, next) => {
-        AnimationsService.getAllAnimations(req.app.get("db"))
+        AnimationsService.getAllAnimations(req.app.get("db"), req.user.id)
             .then((animations) => {
                 res.json(AnimationsService.serializeAnimations(animations));
             })
@@ -102,7 +102,8 @@ async function checkAnimationExists(req, res, next) {
 	try {
 		const animation = await AnimationsService.getByAnimationId(
 			req.app.get('db'),
-			req.params.id
+			req.params.id, 
+			req.user.id,
 		);
 
 		if (!animation)
