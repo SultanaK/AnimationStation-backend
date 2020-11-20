@@ -10,7 +10,10 @@ const AnimationsService = {
 			});
 	},
 	getByAnimationId(knexInstance, id, user_id) {
-		return AnimationsService.getAllAnimations(knexInstance, user_id)
+		return knexInstance
+			.select('*')
+			.from('animations')
+			.where({ user_id })
 			.where('id', id)
 			.first();
 	},
