@@ -61,7 +61,6 @@ animationsRouter
                 })
             }
         }
-        /* animationToUpdate.updated = new Date().toISOString(); */
         AnimationsService.updateAnimation(
             req.app.get("db"),
             req.params.id,
@@ -88,7 +87,6 @@ animationsRouter
 				if (numRowsAffected === 1) {
 					res.status(204).end();
 				} else {
-				/* 	res.status(401).end(); */
 					res.status(401)
 						.json({error: `You are not authorize to delete thia animation`})
 						
@@ -98,7 +96,7 @@ animationsRouter
 			.catch(next);
 	});
 
-/* async/await syntax for promises */
+
 async function checkAnimationExists(req, res, next) {
 	try {
 		const animation = await AnimationsService.getByAnimationId(
