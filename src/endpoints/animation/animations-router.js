@@ -32,7 +32,8 @@ animationsRouter
 
         AnimationsService.insertAnimation(
             req.app.get('db'),
-            newAnimation
+					newAnimation,
+						req.user.id,
         )
             .then(animation => {
                 res

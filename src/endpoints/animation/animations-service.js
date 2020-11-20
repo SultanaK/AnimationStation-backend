@@ -18,14 +18,14 @@ const AnimationsService = {
 			.first();
 	},
 
-	insertAnimation(knexInstance, animation) {
+	insertAnimation(knexInstance, animation, user_id) {
 		return knexInstance
 			.insert(animation)
 			.into('animations')
 			.returning('*')
 			.then(([ animation ]) => animation)
 			.then((animation) =>
-				AnimationsService.getByAnimationId(knexInstance, animation.id)
+				AnimationsService.getByAnimationId(knexInstance, animation.id, user_id)
 			);
 	},
 
