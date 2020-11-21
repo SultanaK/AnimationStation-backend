@@ -17,6 +17,10 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
+app.get('/', (req, res) => {
+	res.send('Hello, from AnimationStation!!');
+});
+
 app.use('/api/animations', animationsRouter);
 app.use('/api/auth', authsRouter);
 app.use('/api/profile', profileRouter);
