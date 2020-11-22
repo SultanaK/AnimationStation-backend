@@ -30,12 +30,12 @@ describe('Auth Endpoints', function () {
             testUsers,
         )
 
-        const requiredFields = ['email', 'pwd']
+        const requiredFields = ['email', 'password']
 
         requiredFields.forEach(field => {
             const loginAttemptBody = {
                 email: testUser.email,
-                pwd: testUser.pwd,
+                pwd: testUser.password,
             }
 
             it(`responds with 400 required error when '${field}' is missing`, () => {
