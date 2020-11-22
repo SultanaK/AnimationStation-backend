@@ -1,4 +1,6 @@
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+const xss = require("xss");
 
 function makeUsersArray() {
 	return [
@@ -105,17 +107,18 @@ function makeAnimationsArray(users) {
 function makeExpectedAnimation(users, animation) {
 	const user = users.find((user) => user.id === animation.user_id);
 	return {
-		id: animation.id,
+    id: animation.id,
+    title: xss(animation.title),
 		delay: animation.delay,
-		duration: animation.duration,
-		iteration: animation.iteration,
-		keyframe: animation.keyframe,
-		target: animation.target,
+    duration: animation.duration,
+    direction: xss(animation.direction),
+    iteration: animation.iteration,
+    timing: xss(animation.timing),
+    fill: xss(animation.fill),
+		keyframe: xss(animation.keyframe),
+		target: xss(animation.target),
 		user_id: animation.users_id,
 		created: animation.created,
-		direction: animation.direction,
-		timing: animation.timing,
-		fill: animation.fill,
 		user: {
 			id: user.id,
 			user_name: user.user_name,
@@ -166,13 +169,14 @@ function cleanTables(db) {
 			.raw(
 				`TRUNCATE
         animations,
-        users;`
+        users
+        RESTART IDENTITY CASCADE
+        `
 			)
 			.then(() =>
 				Promise.all([
 					trx.raw(`ALTER SEQUENCE animations_id_seq minvalue 0 START WITH 1`),
 					trx.raw(`ALTER SEQUENCE users_id_seq minvalue 0 START WITH 1`),
-
 					trx.raw(`SELECT setval('animations_id_seq', 0)`),
 					trx.raw(`SELECT setval('users_id_seq', 0)`),
 				])
@@ -218,9 +222,16 @@ function seedMaliciousAnimation(db, user, animation) {
 		.insert([ user ])
 		.then(() => db.into('animations').insert([ animation ]));
 }
-function makeAuthHeader(user) {
-  const token = Buffer.from(`${user.email}:${user.password}`).toString('base64')
-  return `Basic ${token}`
+
+function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
+  const subject = user.email;
+  const payload = { id: user.id };
+  const token = jwt.sign(payload, secret, {
+    subject,
+    expiresIn: process.env.JWT_EXPIRY,
+    algorithm: 'HS256',
+  });
+  return `bearer ${token}`
 }
 
 module.exports = {
