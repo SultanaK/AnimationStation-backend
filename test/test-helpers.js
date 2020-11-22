@@ -166,9 +166,7 @@ function cleanTables(db) {
 			.raw(
 				`TRUNCATE
         animations,
-        users,
-        
-      `
+        users;`
 			)
 			.then(() =>
 				Promise.all([
