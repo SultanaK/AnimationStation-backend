@@ -96,7 +96,8 @@ animationsRouter
 				if (numRowsAffected === 1) {
 					res.status(204).end();
 				} else {
-					res.status(401).json({ error: `You are not authorize to delete thia animation` });
+					res.status(401)
+						.json({error: `You are not authorized to delete this animation`})
 				}
 				console.log(numRowsAffected);
 			})
