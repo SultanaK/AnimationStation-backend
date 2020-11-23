@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const xss = require('xss');
 const UsersService = require('./users-service');
+const { requireAuth } = require('../../middleware/jwt-auth');
 
 const usersRouter = express.Router();
 const jsonParser = express.json();
@@ -11,14 +12,13 @@ const serializeUser = (user) => ({
 	user_name: xss(user.user_name),
 	full_name: xss(user.full_name),
 	email: xss(user.email),
-	created: new Date(user.created),
-	updated: new Date(user.updated),
+	created: user.created,
+	updated: user.updated,
 });
 
 usersRouter
 	.route('/')
-	/* .all(checkUserEmailExists) */
-	.get((req, res, next) => {
+	.get(requireAuth, (req, res, next) => {
 		const knexInstance = req.app.get('db');
 		UsersService.getAllUsers(knexInstance)
 			.then((users) => {
@@ -30,7 +30,7 @@ usersRouter
 		const { full_name, user_name, email, password } = req.body;
 		const newUser = { full_name, email, user_name, password };
 
-		for (const [ key, value ] of Object.entries(newUser)) {
+		for (const [key, value] of Object.entries(newUser)) {
 			if (value == null) {
 				return res.status(400).json({
 					error: { message: `Missing '${key}' in request body` },
@@ -39,14 +39,10 @@ usersRouter
 		}
 		const passwordError = UsersService.validatePassword(password);
 		if (passwordError) return res.status(400).json({ error: passwordError });
-		
-       /*  const emailError = UsersService.validateEmail(email);
-        if(emailError) return res.status(400).json({error: emailError})
-         */
-        UsersService.hasUserWithEmail(req.app.get('db'), email)
+
+		UsersService.hasUserWithEmail(req.app.get('db'), email)
 			.then((hasUserWithEmail) => {
-				if (hasUserWithEmail)
-					return res.status(400).json({ error: `Email already taken` });
+				if (hasUserWithEmail) return res.status(400).json({ error: { message: `Email already taken` } });
 				return UsersService.hashPassword(password).then((hashedPassword) => {
 					const newUser = {
 						full_name,
@@ -56,10 +52,7 @@ usersRouter
 						created: 'now()',
 					};
 
-					return UsersService.insertUser(
-						req.app.get('db'),
-						newUser
-					).then((user) => {
+					return UsersService.insertUser(req.app.get('db'), newUser).then((user) => {
 						res
 							.status(201)
 							.location(path.posix.join(req.originalUrl, `/${user.id}`))
@@ -72,19 +65,8 @@ usersRouter
 
 usersRouter
 	.route('/:user_id')
-	.all((req, res, next) => {
-		UsersService.getById(req.app.get('db'), req.params.user_id)
-			.then((user) => {
-				if (!user) {
-					return res.status(404).json({
-						error: { message: `User doesn't exist` },
-					});
-				}
-				res.user = user;
-				next();
-			})
-			.catch(next);
-	})
+	.all(requireAuth)
+	.all(checkUserExists)
 	.get((req, res, next) => {
 		res.json(serializeUser(res.user));
 	})
@@ -113,17 +95,29 @@ usersRouter
 			})
 			.catch(next);
 	});
+
 async function checkUserEmailExists(req, res, next) {
 	try {
-		const email = await AnimationsService.hasUserWithEmail(
-			req.app.get('db'),
-			req.params.email
-		);
+		const email = await UsersService.hasUserWithEmail(req.app.get('db'), req.user.email);
 		if (email)
 			return res.status(404).json({
 				error: `Email already exist`,
 			});
 		res.email = email;
+		next();
+	} catch (error) {
+		next(error);
+	}
+}
+
+async function checkUserExists(req, res, next) {
+	try {
+		const user = await UsersService.getById(req.app.get('db'), req.params.user_id);
+		if (user)
+			return res.status(404).json({
+				error: `User doesn't exist`,
+			});
+		res.user = user;
 		next();
 	} catch (error) {
 		next(error);

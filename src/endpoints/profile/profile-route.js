@@ -4,13 +4,15 @@ const { requireAuth } = require('../../middleware/jwt-auth');
 
 const ProfileRouter = express.Router();
 
-ProfileRouter.route('/').all(requireAuth).get((req, res, next) => {
-	ProfileService.getAllAnimations(req.app.get('db'))
-		.then((animations) => {
-			res.json(ProfileService.serializeAnimations(animations));
-		})
-		.catch(next);
-});
+ProfileRouter.route('/')
+	.all(requireAuth)
+	.get((req, res, next) => {
+		ProfileService.getAllAnimations(req.app.get('db'))
+			.then((animations) => {
+				res.json(ProfileService.serializeAnimations(animations));
+			})
+			.catch(next);
+	});
 
 ProfileRouter.route('/:user_id')
 	.all(requireAuth)
@@ -26,10 +28,7 @@ ProfileRouter.route('/:user_id')
 /* async/await syntax for promises */
 async function checkUserExist(req, res, next) {
 	try {
-		const user = await ProfileService.getAnimationsByUserId(
-			req.app.get('db'),
-			req.params.user_id
-		);
+		const user = await ProfileService.getAnimationsByUserId(req.app.get('db'), req.params.user_id);
 
 		if (!user)
 			return res.status(404).json({
