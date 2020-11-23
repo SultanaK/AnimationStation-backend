@@ -10,7 +10,7 @@ describe('Animations Endpoints', function() {
 	before('make knex instance', () => {
 		db = knex({
 			client: 'pg',
-			connection: process.env.TEST_DB_URL,
+			connection: process.env.TEST_DATABASE_URL,
 		});
 		app.set('db', db);
 	});
@@ -23,6 +23,11 @@ describe('Animations Endpoints', function() {
 
 	describe(`GET /api/animations`, () => {
 		context(`Given no animations`, () => {
+
+      beforeEach(() =>
+        helpers.seedUsers(db, testUsers)
+      )
+      
 			it(`responds with 200 and an empty list`, () => {
 				return supertest(app)
 					.get('/api/animations')
@@ -31,15 +36,13 @@ describe('Animations Endpoints', function() {
 			});
 		});
 
-		context('Given there are animationss in the database', () => {
+		context('Given there are animations in the database', () => {
 			beforeEach('insert animations', () =>
 				helpers.seedAnimationsTables(db, testUsers, testAnimations)
 			);
 
-			it('responds with 200 and all of the animations', () => {
-				const expectedAnimations = testAnimations.map((animation) =>
-					helpers.makeExpectedAnimation(testUsers, animation)
-				);
+			it('responds with 200 and all of the animations', () => {        
+        const expectedAnimations = helpers.makeExpectedAnimations(testUsers[0], testAnimations)
 				return supertest(app)
 					.get('/api/animations')
 					.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
@@ -60,7 +63,8 @@ describe('Animations Endpoints', function() {
 
 			it('removes XSS attack keyframe', () => {
 				return supertest(app)
-					.get(`/api/animations`)
+          .get(`/api/animations`)
+          .set('Authorization', helpers.makeAuthHeader(testUser))
 					.expect(200)
 					.expect((res) => {
 						expect(res.body[0].title).to.eql(expectedAnimation.title);
@@ -70,12 +74,17 @@ describe('Animations Endpoints', function() {
 		});
 	});
 
-	describe(`GET /api/animations/:animation_id`, () => {
-		context(`Given no animations`, () => {
+	describe(`GET /api/animations/:id`, () => {
+
+		context(`Given animation does not exist`, () => {
+      beforeEach(() =>
+        helpers.seedUsers(db, testUsers)
+      )
+
 			it(`responds with 404`, () => {
-				const animationId = 123456;
+				const id = 123456;
 				return supertest(app)
-					.get(`/api/animations/${animationId}`)
+					.get(`/api/animations/${id}`)
 					.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
 					.expect(404, { error: `Animation doesn't exist` });
 			});
@@ -87,15 +96,16 @@ describe('Animations Endpoints', function() {
 			);
 
 			it('responds with 200 and the specified animation', () => {
-				const animationId = 2;
+				const id = 2;
 				const expectedAnimation = helpers.makeExpectedAnimation(
-					testUsers,
-					testAnimations[animationId - 1]
-				);
+					testAnimations[id - 1]
+        );
 
-				return supertest(app)
-					.get(`/api/animations/${animationId}`)
-					.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+        const user = testUsers[expectedAnimation.user_id - 1];
+
+        return supertest(app)
+          .get(`/api/animations/${id}`)
+					.set('Authorization', helpers.makeAuthHeader(user))
 					.expect(200, expectedAnimation);
 			});
 		});
@@ -109,12 +119,14 @@ describe('Animations Endpoints', function() {
 
 			beforeEach('insert malicious animation', () => {
 				return helpers.seedMaliciousAnimation(db, testUser, maliciousAnimation);
-			});
+      });
+      
+      const user = testUsers[maliciousAnimation.user_id - 1];
 
 			it('removes XSS attack content', () => {
 				return supertest(app)
 					.get(`/api/animations/${maliciousAnimation.id}`)
-					.set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+					.set('Authorization', helpers.makeAuthHeader(user))
 					.expect(200)
 					.expect((res) => {
 						expect(res.body.title).to.eql(expectedAnimation.title);

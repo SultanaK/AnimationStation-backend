@@ -61,14 +61,6 @@ describe('Protected endpoints', function () {
 					.set('Authorization', helpers.makeAuthHeader(validUser, invalidSecret))
 					.expect(401, { error: `Unauthorized request` });
       });
-      
-      it(`responds 401 'Unauthorized request' when invalid JWT secret`, () => {
-        const validUser = testUsers[0];
-        const invalidSecret = 'bad-secret';
-        return endpoint.method(endpoint.path)
-          .set('Authorization', helpers.makeAuthHeader(validUser, invalidSecret))
-          .expect(401, { error: `Unauthorized request` });
-      });
 
       it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
         const invalidUser = { email: 'user-not-existy@example.com', id: 1 };

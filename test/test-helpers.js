@@ -10,7 +10,7 @@ function makeUsersArray() {
 			full_name: 'Test user 1',
 			email: 'test-user-1@email.com',
 			password: 'password',
-			created: new Date('2029-01-22T16:28:32.615Z'),
+			created: '2029-01-22T16:28:32.615Z',
 		},
 		{
 			id: 2,
@@ -18,7 +18,7 @@ function makeUsersArray() {
 			full_name: 'Test user 2',
 			email: 'test-user-2@email.com',
 			password: 'password',
-			created: new Date('2029-01-22T16:28:32.615Z'),
+			created: '2029-01-22T16:28:32.615Z',
 		},
 		{
 			id: 3,
@@ -26,7 +26,7 @@ function makeUsersArray() {
 			full_name: 'Test user 3',
 			email: 'test-user-3@email.com',
 			password: 'password',
-			created: new Date('2029-01-22T16:28:32.615Z'),
+			created: '2029-01-22T16:28:32.615Z',
 		},
 		{
 			id: 4,
@@ -34,7 +34,7 @@ function makeUsersArray() {
 			full_name: 'Test user 4',
 			email: 'test-user-4@email.com',
 			password: 'password',
-			created: new Date('2029-01-22T16:28:32.615Z'),
+			created: '2029-01-22T16:28:32.615Z',
 		},
 	];
 }
@@ -44,68 +44,80 @@ function makeAnimationsArray(users) {
 		{
 			id: 1,
 			title: 'First test post!',
-			delay: '1',
-			duration: '500',
-			iteration: '3',
+			delay: 1,
+			duration: 500,
+      direction: 'reverse',
+			iteration: 3,
+      timing: 'ease-in',
+      fill: 'both',
 			keyframe:
 				'{"rotate-diagonal":"\n  @keyframes rotate-diagonal {\n    0% {\n      -webkit-transform: rotate3d(-1, 1, 0, 0deg);\n              transform: rotate3d(-1, 1, 0, 0deg);\n    }\n    50% {\n      -webkit-transform: rotate3d(-1, 1, 0, 180deg);\n              transform: rotate3d(-1, 1, 0, 180deg);\n    }\n    100% {\n      -webkit-transform: rotate3d(-1, 1, 0, 360deg);\n transform: rotate3d(-1, 1, 0, 360deg);\n    }\n  }"}',
 			target: 'square',
 			user_id: users[0].id,
-			created: new Date('2029-01-22T16:28:32.615Z'),
-			direction: 'reverse',
-			timing: 'ease-in',
-			fill: 'both',
+			created: '2029-01-22T16:28:32.615Z',
 		},
 		{
 			id: 2,
 			title: 'Second test post!',
-			delay: '1',
-			duration: '500',
-			iteration: '3',
+			delay: 1,
+			duration: 500,
+      direction: 'reverse',
+			iteration: 3,
+      timing: 'ease-in',
+      fill: 'both',
 			keyframe:
 				'{"rotate-diagonal":"\n  @keyframes rotate-diagonal {\n    0% {\n      -webkit-transform: rotate3d(-1, 1, 0, 0deg);\n              transform: rotate3d(-1, 1, 0, 0deg);\n    }\n    50% {\n      -webkit-transform: rotate3d(-1, 1, 0, 180deg);\n              transform: rotate3d(-1, 1, 0, 180deg);\n    }\n    100% {\n      -webkit-transform: rotate3d(-1, 1, 0, 360deg);\n transform: rotate3d(-1, 1, 0, 360deg);\n    }\n  }"}',
 			target: 'square',
 			user_id: users[1].id,
-			created: new Date('2029-01-22T16:28:32.615Z'),
-			direction: 'reverse',
-			timing: 'ease-in',
-			fill: 'both',
+			created: '2029-01-22T16:28:32.615Z',
 		},
 		{
 			id: 3,
 			title: 'Third test post!',
-			delay: '1',
-			duration: '500',
-			iteration: '3',
+			delay: 1,
+			duration: 500,
+      direction: 'reverse',
+			iteration: 3,
+      timing: 'ease-in',
+      fill: 'both',
 			keyframe:
 				'{"rotate-diagonal":"\n  @keyframes rotate-diagonal {\n    0% {\n      -webkit-transform: rotate3d(-1, 1, 0, 0deg);\n              transform: rotate3d(-1, 1, 0, 0deg);\n    }\n    50% {\n      -webkit-transform: rotate3d(-1, 1, 0, 180deg);\n              transform: rotate3d(-1, 1, 0, 180deg);\n    }\n    100% {\n      -webkit-transform: rotate3d(-1, 1, 0, 360deg);\n transform: rotate3d(-1, 1, 0, 360deg);\n    }\n  }"}',
 			target: 'square',
 			user_id: users[2].id,
-			created: new Date('2029-01-22T16:28:32.615Z'),
-			direction: 'reverse',
-			timing: 'ease-in',
-			fill: 'both',
+			created: '2029-01-22T16:28:32.615Z',
 		},
 		{
 			id: 4,
 			title: 'Fourth test post!',
-			delay: '1',
-			duration: '500',
-			iteration: '3',
+			delay: 1,
+			duration: 500,
+      direction: 'reverse',
+			iteration: 3,
+      timing: 'ease-in',
+      fill: 'both',
 			keyframe:
 				'{"rotate-diagonal":"\n  @keyframes rotate-diagonal {\n    0% {\n      -webkit-transform: rotate3d(-1, 1, 0, 0deg);\n              transform: rotate3d(-1, 1, 0, 0deg);\n    }\n    50% {\n      -webkit-transform: rotate3d(-1, 1, 0, 180deg);\n              transform: rotate3d(-1, 1, 0, 180deg);\n    }\n    100% {\n      -webkit-transform: rotate3d(-1, 1, 0, 360deg);\n transform: rotate3d(-1, 1, 0, 360deg);\n    }\n  }"}',
 			target: 'square',
 			user_id: users[3].id,
-			created: new Date('2029-01-22T16:28:32.615Z'),
-			direction: 'reverse',
-			timing: 'ease-in',
-			fill: 'both',
+			created: '2029-01-22T16:28:32.615Z',
 		},
 	];
 }
 
-function makeExpectedAnimation(users, animation) {
-	const user = users.find((user) => user.id === animation.user_id);
+function makeExpectedAnimations(user, animations) {
+  const expectedAnimations = [];
+  animations.forEach(animation => {
+    if (animation.user_id === user.id) {
+      expectedAnimations.push(
+        makeExpectedAnimation(animation)
+      )
+    }
+  });
+
+  return expectedAnimations;
+}
+
+function makeExpectedAnimation(animation) {
 	return {
     id: animation.id,
     title: xss(animation.title),
@@ -117,23 +129,15 @@ function makeExpectedAnimation(users, animation) {
     fill: xss(animation.fill),
 		keyframe: xss(animation.keyframe),
 		target: xss(animation.target),
-		user_id: animation.users_id,
+		user_id: animation.user_id,
 		created: animation.created,
-		user: {
-			id: user.id,
-			user_name: user.user_name,
-			full_name: user.full_name,
-			email: user.email,
-			created: user.created.toISOString(),
-			updated: user.updated || null,
-		},
 	};
 }
 
 function makeMaliciousAnimation(user) {
 	const maliciousAnimation = {
 		id: 911,
-		title: 'How-to',
+		title: 'Naughty naughty very naughty <script>alert("xss");</script>',
 		delay: '1',
 		duration: '500',
 		iteration: '3',
@@ -143,13 +147,14 @@ function makeMaliciousAnimation(user) {
 		timing: 'ease-in',
 		fill: 'both',
 		user_id: user.id,
-	};
+  };
+  
 	const expectedAnimation = {
-		...makeExpectedAnimation([ user ], maliciousAnimation),
-		title:
-			'Naughty naughty very naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
+		...maliciousAnimation,
+		title: 'Naughty naughty very naughty &lt;script&gt;alert("xss");&lt;/script&gt;',
 		keyframe: `Bad image <img src="https://url.to.file.which/does-not.exist">. But not <strong>all</strong> bad.`,
-	};
+  };
+  
 	return {
 		maliciousAnimation,
 		expectedAnimation,
@@ -200,7 +205,7 @@ function seedUsers(db, users) {
 function seedAnimationsTables(db, users, animations ) {
 	// use a transaction to group the queries and auto rollback on any failure
 	return db.transaction(async (trx) => {
-		await trx.into('users').insert(users);
+    await seedUsers(trx, users)
 		await trx.into('animations').insert(animations);
 		// update the auto sequence to match the forced id values
 		await Promise.all([
@@ -211,8 +216,6 @@ function seedAnimationsTables(db, users, animations ) {
 				animations[animations.length - 1].id,
 			]),
 		]);
-		// only insert comments if there are some, also update the sequence counter
-		
 	});
 }
 
@@ -236,8 +239,9 @@ function makeAuthHeader(user, secret = process.env.JWT_SECRET) {
 
 module.exports = {
 	makeUsersArray,
-	makeAnimationsArray,
-	makeExpectedAnimation,
+  makeAnimationsArray,
+  makeExpectedAnimation,
+  makeExpectedAnimations,
 	makeMaliciousAnimation,
 	makeAnimationsFixtures,
 	cleanTables,
