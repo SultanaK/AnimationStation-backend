@@ -44,9 +44,18 @@ const AnimationsService = {
 			.returning('*')
 			.then(([ animation ]) => animation)
 			.then((animation) =>
-				AnimationsService.getByAnimationId(knex, animation.id, user_id)
+				AnimationsService.getByAnimationId(knex, animation.id, animation.user_id)
 			);
-	},
+  },
+  
+  updateNote(db, id, newNoteFields) {
+    return db("markdown_notes")
+      .where({id})
+      .update(newNoteFields)
+      .returning("*")
+      .then(([note]) => note)
+      .then((note) => NotesService.getById(db, note.id, note.user_id));
+  },
 
 	serializeAnimations(animations) {
 		return animations.map((animation) => {
