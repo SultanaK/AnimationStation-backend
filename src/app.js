@@ -25,6 +25,7 @@ app.use('/api/users', usersRouter);
 app.get('/', (req, res) => {
 	res.send('Hello, from AnimationStation!!');
 });
+
 app.use(function errorHandler(error, req, res, next) {
 	let response;
 	if (NODE_ENV === 'production') {

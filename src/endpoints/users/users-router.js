@@ -113,7 +113,7 @@ async function checkUserEmailExists(req, res, next) {
 async function checkUserExists(req, res, next) {
 	try {
 		const user = await UsersService.getById(req.app.get('db'), req.params.user_id);
-		if (user)
+		if (!user)
 			return res.status(404).json({
 				error: `User doesn't exist`,
 			});
