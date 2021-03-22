@@ -37,6 +37,9 @@
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2"
   },
+  "directories": {
+    "test": "test"
+  },
   "engines": {
     "node": "14.x"
   }
